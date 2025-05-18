@@ -17,7 +17,7 @@ Delta Lake handles the following operations automatically, which you should neve
 When you port an existing application to Delta Lake, you should avoid the following operations, which bypass the transaction log:
 
 - **Manually modify data**: Delta Lake uses the transaction log to atomically commit changes to the table. Because the log is the source of truth, files that are written out but not added to the transaction log are not read by Spark. Similarly, even if you manually delete a file, a pointer to the file is still present in the transaction log. Instead of manually modifying files stored in a Delta table, always use the commands that are described in this guide.
-- **External readers**: Directly reading the data stored in Delta Lake. For information on how to read Delta tables, see [read a table](/apache-spark-connector/table-batch-reads-and-writes/#read-a-table).
+- **External readers**: Directly reading the data stored in Delta Lake. For information on how to read Delta tables, see [read a table](/delta-batch/#read-a-table).
 
 ### Example
 
@@ -64,7 +64,7 @@ You have two options for converting a Parquet table to a Delta table:
   CONVERT TO DELTA events
   ```
 
-For details, see [Convert a Parquet table to a Delta table](/apache-spark-connector/table-utility-commands/#convert-a-parquet-table-to-a-delta-table).
+For details, see [Convert a Parquet table to a Delta table](/delta-utility/#convert-a-parquet-table-to-a-delta-table).
 
 ## Migrate Delta Lake workloads to newer versions
 
@@ -104,9 +104,9 @@ When calling `CONVERT TO DELTA` on a catalog table Delta Lake 2.1 infers the dat
 
 ### Delta Lake 1.2 or below to Delta Lake 2.0 or above
 
-Delta Lake 2.0.0 introduced a behavior change for [DROP CONSTRAINT](/apache-spark-connector/constraints/#check-constraint). In version 1.2 and below, no error was thrown when trying to drop a non-existent constraint. In version 2.0.0 and above, the behavior is changed to throw a constraint not exists error. To avoid the error, use `IF EXISTS` construct (for example, `ALTER TABLE events DROP CONSTRAINT IF EXISTS constraint_name`). There is no change in behavior in dropping an existing constraint.
+Delta Lake 2.0.0 introduced a behavior change for [DROP CONSTRAINT](/delta-constraints/#check-constraint). In version 1.2 and below, no error was thrown when trying to drop a non-existent constraint. In version 2.0.0 and above, the behavior is changed to throw a constraint not exists error. To avoid the error, use `IF EXISTS` construct (for example, `ALTER TABLE events DROP CONSTRAINT IF EXISTS constraint_name`). There is no change in behavior in dropping an existing constraint.
 
-Delta Lake 2.0.0 introduced support for [Dynamic Partition Overwrites](/apache-spark-connector/table-batch-reads-and-writes/#overwrite). In version 1.2 and below, enabling dynamic partition overwrite mode in either the Spark session configuration or a `DataFrameWriter` option was a no-op, and writes in `overwrite` mode replaced all existing data in every partition of the table. In version 2.0.0 and above, when dynamic partition overwrite mode is enabled, Delta Lake replaces all existing data in each logical partition for which the write will commit new data.
+Delta Lake 2.0.0 introduced support for [Dynamic Partition Overwrites](/delta-batch/#overwrite). In version 1.2 and below, enabling dynamic partition overwrite mode in either the Spark session configuration or a `DataFrameWriter` option was a no-op, and writes in `overwrite` mode replaced all existing data in every partition of the table. In version 2.0.0 and above, when dynamic partition overwrite mode is enabled, Delta Lake replaces all existing data in each logical partition for which the write will commit new data.
 
 ### Delta Lake 1.1 or below to Delta Lake 1.2 or above
 
@@ -151,7 +151,7 @@ spark.read
 
 ### Delta Lake 0.6 or below to Delta Lake 0.7 or above
 
-If you are using `DeltaTable` APIs in Scala, Java, or Python to [update](/apache-spark-connector/table-deletes-updates-and-merges/) or [run utility operations](/apache-spark-connector/table-utility-commands/) on them, then you may have to add the following configurations when creating the `SparkSession` used to perform those operations.
+If you are using `DeltaTable` APIs in Scala, Java, or Python to [update](/delta-update/) or [run utility operations](/delta-utility/) on them, then you may have to add the following configurations when creating the `SparkSession` used to perform those operations.
 
 <Tabs>
   <TabItem label="Python">

@@ -34,9 +34,9 @@ You enable support for deletion vectors on a Delta Lake table by setting a Delta
 </Tabs>
 
 <Aside type="caution" title="Warning">
-When you enable deletion vectors, the table protocol version is upgraded. After upgrading, the table will not be readable by Delta Lake clients that do not support deletion vectors. See [How does Delta Lake manage feature compatibility?](/apache-spark-connector/how-does-delta-lake-manage-feature-compatibility/).
+When you enable deletion vectors, the table protocol version is upgraded. After upgrading, the table will not be readable by Delta Lake clients that do not support deletion vectors. See [How does Delta Lake manage feature compatibility?](/versioning/).
 
-In Delta Lake 3.0 and above, you can drop the deletion vectors table feature to enable compatibility with other Delta clients. See [Drop Delta table features](/apache-spark-connector/drop-delta-table-features/).
+In Delta Lake 3.0 and above, you can drop the deletion vectors table feature to enable compatibility with other Delta clients. See [Drop Delta table features](/delta-drop-feature/).
 
 </Aside>
 
@@ -81,10 +81,9 @@ Reorganize a Delta Lake table by rewriting files to purge soft-deleted data, suc
 <Aside type="note">
   - `REORG TABLE` only rewrites files that contain soft-deleted data. - When
   resulting files of the purge are small, `REORG TABLE` will coalesce them into
-  larger ones. See [OPTIMIZE](/apache-spark-connector/optimizations/) for more
-  info. - `REORG TABLE` is *idempotent*, meaning that if it is run twice on the
-  same dataset, the second run has no effect. - After running `REORG TABLE`, the
-  soft-deleted data may still exist in the old files. You can run
-  [VACUUM](/apache-spark-connector/table-utility-commands/#vacuum) to physically
-  delete the old files.
+  larger ones. See [OPTIMIZE](/optimizations-oss/) for more info. - `REORG
+  TABLE` is *idempotent*, meaning that if it is run twice on the same dataset,
+  the second run has no effect. - After running `REORG TABLE`, the soft-deleted
+  data may still exist in the old files. You can run
+  [VACUUM](/delta-utility/#vacuum) to physically delete the old files.
 </Aside>

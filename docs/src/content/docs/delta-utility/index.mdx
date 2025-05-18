@@ -8,11 +8,11 @@ import { Image } from "astro:assets";
 
 Delta tables support a number of utility commands.
 
-For many Delta Lake operations, you enable integration with Apache Spark DataSourceV2 and Catalog APIs (since 3.0) by setting configurations when you create a new `SparkSession`. See [Configure SparkSession](/apache-spark-connector/table-batch-reads-and-writes/#configure-sparksession).
+For many Delta Lake operations, you enable integration with Apache Spark DataSourceV2 and Catalog APIs (since 3.0) by setting configurations when you create a new `SparkSession`. See [Configure SparkSession](/delta-batch/#configure-sparksession).
 
 ## Remove files no longer referenced by a Delta table
 
-You can remove files no longer referenced by a Delta table and are older than the retention threshold by running the `vacuum` command on the table. `vacuum` is not triggered automatically. The default retention threshold for the files is 7 days. To change this behavior, see [Data retention](/apache-spark-connector/table-batch-reads-and-writes/#data-retention).
+You can remove files no longer referenced by a Delta table and are older than the retention threshold by running the `vacuum` command on the table. `vacuum` is not triggered automatically. The default retention threshold for the files is 7 days. To change this behavior, see [Data retention](/delta-batch/#data-retention).
 
 <Aside
   type="caution"
@@ -26,11 +26,9 @@ You can remove files no longer referenced by a Delta table and are older than th
   after checkpoint operations. The default retention period of log files is 30
   days, configurable through the `delta.logRetentionDuration` property which you
   set with the `ALTER TABLE SET TBLPROPERTIES` SQL method. See [Table
-  properties](/apache-spark-connector/table-batch-reads-and-writes/#table-properties).
-  - The ability to [time
-  travel](/apache-spark-connector/table-batch-reads-and-writes/#query-an-older-snapshot-of-a-table-time-travel)
-  back to a version older than the retention period is lost after running
-  `vacuum`.
+  properties](/delta-batch/#table-properties). - The ability to [time
+  travel](/delta-batch/#query-an-older-snapshot-of-a-table-time-travel) back to
+  a version older than the retention period is lost after running `vacuum`.
 </Aside>
 
 <Tabs>
@@ -94,7 +92,7 @@ deltaTable.vacuum(100); // vacuum files not required by versions more than 100 h
   `"spark.databricks.delta.vacuum.parallelDelete.enabled"` to `"true"`.
 </Aside>
 
-See the [Delta Lake APIs](/delta-lake-apis/) for Scala, Java, and Python syntax details.
+See the [Delta Lake APIs](/delta-apidoc/) for Scala, Java, and Python syntax details.
 
 <Aside type="caution">
 It is recommended that you set a retention interval to be at least 7 days,
@@ -136,7 +134,7 @@ DESCRIBE HISTORY '/data/events/' LIMIT 1  -- get the last operation only
 DESCRIBE HISTORY eventsTable
 ```
 
-See [Configure SparkSession](/apache-spark-connector/table-batch-reads-and-writes/#configure-sparksession) for the steps to enable support for SQL commands in Apache Spark.
+See [Configure SparkSession](/delta-batch/#configure-sparksession) for the steps to enable support for SQL commands in Apache Spark.
 
 <Tabs>
   <TabItem label="Python">
@@ -170,7 +168,7 @@ DataFrame detailDF = deltaTable.detail();`} lang="java" />
   </TabItem>
 </Tabs>
 
-See the [Delta Lake APIs](/delta-lake-apis/) for Scala/Java/Python syntax details.
+See the [Delta Lake APIs](/delta-apidoc/) for Scala/Java/Python syntax details.
 
 The output of the `history` operation has the following columns.
 
@@ -295,7 +293,7 @@ DESCRIBE DETAIL '/data/events/'
 DESCRIBE DETAIL eventsTable
 ```
 
-See [Configure SparkSession](/apache-spark-connector/table-batch-reads-and-writes/#configure-sparksession) for the steps to enable support for SQL commands in Apache Spark.
+See [Configure SparkSession](/delta-batch/#configure-sparksession) for the steps to enable support for SQL commands in Apache Spark.
 
 <Tabs>
   <TabItem label="Python">
@@ -329,7 +327,7 @@ DataFrame detailDF = deltaTable.detail();`} lang="java" />
   </TabItem>
 </Tabs>
 
-See the [Delta Lake APIs](/delta-lake-apis/) for Scala/Java/Python syntax details.
+See the [Delta Lake APIs](/delta-apidoc/) for Scala/Java/Python syntax details.
 
 The output of this operation has only one row with the following schema.
 
@@ -388,7 +386,7 @@ deltaTable.generate("symlink_format_manifest");`} lang="java" />
   </TabItem>
 </Tabs>
 
-See [Configure SparkSession](/apache-spark-connector/table-batch-reads-and-writes/#configure-sparksession) for the steps to enable support for SQL commands in Apache Spark.
+See [Configure SparkSession](/delta-batch/#configure-sparksession) for the steps to enable support for SQL commands in Apache Spark.
 
 ## Convert a Parquet table to a Delta table
 
@@ -595,7 +593,7 @@ You can create a shallow copy of an existing Delta table at a specific version u
 
 Any changes made to shallow clones affect only the clones themselves and not the source table, as long as they don't touch the source data Parquet files.
 
-The metadata that is cloned includes: schema, partitioning information, invariants, nullability. For shallow clones, stream metadata is not cloned. Metadata not cloned are the table description and [user-defined commit metadata](/apache-spark-connector/table-batch-reads-and-writes/#set-user-defined-commit-metadata).
+The metadata that is cloned includes: schema, partitioning information, invariants, nullability. For shallow clones, stream metadata is not cloned. Metadata not cloned are the table description and [user-defined commit metadata](/delta-batch/#set-user-defined-commit-metadata).
 
 <Aside
   type="caution"

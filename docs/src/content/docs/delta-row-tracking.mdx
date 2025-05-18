@@ -23,7 +23,7 @@ Row tracking allows Delta Lake to track row-level lineage in a Delta Lake table.
   protocol versions cannot be downgraded, and tables with row tracking enabled
   are not writeable by Delta Lake clients that do not support all enabled Delta
   Lake writer protocol table features. See [How does Delta Lake manage feature
-  compatibility?](/apache-spark-connector/how-does-delta-lake-manage-feature-compatibility/).
+  compatibility?](/versioning/).
 </Aside>
 
 You must explicitly enable row tracking using one of the following methods:
@@ -180,5 +180,5 @@ Row tracking can be disabled to reduce the storage overhead of the metadata fiel
 
 The following limitations exist:
 
-- The row ids and row commit versions metadata fields cannot be accessed while reading the [Change data feed](/apache-spark-connector/change-data-feed/).
+- The row ids and row commit versions metadata fields cannot be accessed while reading the [Change data feed](/delta-change-data-feed/).
 - Once the Row Tracking feature is added to the table it cannot be removed without recreating the table.

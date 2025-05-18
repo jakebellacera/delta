@@ -17,7 +17,7 @@ To enable UniForm, you must fulfill the following requirements:
 
 ### Uniform Iceberg
 
-- The table must have column mapping enabled. See [Delta column mapping](/apache-spark-connector/delta-column-mapping).
+- The table must have column mapping enabled. See [Delta column mapping](/delta-column-mapping).
 - The Delta table must have a `minReaderVersion` >= 2 and `minWriterVersion` >= 7.
 - Writes to the table must use Delta Lake 3.1 or above.
 - Hive Metastore (HMS) must be configured as the catalog. See [the HMS documentation](https://spark.apache.org/docs/latest/sql-data-sources-hive-tables.html) for how to configure Apache Spark to use Hive Metastore.
@@ -124,12 +124,11 @@ ALTER TABLE table_name SET TBLPROPERTIES ('delta.universalFormat.enabledFormats'
 </Tabs>
 
 <Aside type="note">
-  This syntax requires [Delta column
-  mapping](/apache-spark-connector/delta-column-mapping) to be enabled on the
-  table prior to running on Delta 3.1. This syntax also works to upgrade from
-  the IcbergCompatV1. It may rewrite existing files to make those Iceberg
-  compatible, and it automatically disables and purges Deletion Vectors from the
-  table.
+  This syntax requires [Delta column mapping](/delta-column-mapping) to be
+  enabled on the table prior to running on Delta 3.1. This syntax also works to
+  upgrade from the IcbergCompatV1. It may rewrite existing files to make those
+  Iceberg compatible, and it automatically disables and purges Deletion Vectors
+  from the table.
 </Aside>
 
 <Aside
@@ -237,7 +236,7 @@ Delta and Iceberg table versions do not align by either the commit timestamp or 
 
 The following limitations exist:
 
-- UniForm does not work on tables with deletion vectors enabled. See [What are deletion vectors?](/apache-spark-connector/what-are-deletion-vectors).
+- UniForm does not work on tables with deletion vectors enabled. See [What are deletion vectors?](/delta-deletion-vectors).
 - Delta tables with UniForm enabled do not support `VOID` type.
 - Iceberg/Hudi clients can only read from UniForm. Writes are not supported.
 - Iceberg/Hudi reader clients might have individual limitations, regardless of UniForm. See documentation for your target client.
