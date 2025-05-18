@@ -28,156 +28,120 @@ export default defineConfig({
         replacesTitle: true,
       },
       sidebar: [
-        { label: "Welcome", link: "/" },
+        { label: "Introduction", link: "/" },
         {
           label: "Apache Spark connector",
           collapsed: true,
           items: [
             {
-              label: "Quickstart",
-              link: "/quick-start",
+              slug: "quick-start",
             },
             {
-              label: "Table batch reads and writes",
-              link: "/delta-batch",
+              slug: "delta-batch",
             },
             {
-              label: "Table streaming reads and writes",
-              link: "/delta-streaming",
+              slug: "delta-streaming",
             },
             {
-              label: "Table deletes, updates, and merges",
-              link: "/delta-update",
+              slug: "delta-update",
             },
             {
-              label: "Change data feed",
-              link: "/delta-change-data-feed",
+              slug: "delta-change-data-feed",
             },
             {
-              label: "Table utility commands",
-              link: "/delta-utility",
+              slug: "delta-utility",
             },
             {
-              label: "Constraints",
-              link: "/delta-constraints",
+              slug: "delta-constraints",
             },
             {
-              label: "How does Delta Lake manage feature compatibility?",
-              link: "/versioning",
+              slug: "versioning",
             },
             {
-              label: "Delta default column values",
-              link: "/delta-default-columns",
+              slug: "delta-default-columns",
             },
             {
-              label: "Delta column mapping",
-              link: "/delta-column-mapping",
+              slug: "delta-column-mapping",
             },
             {
-              label: "Use liquid clustering for Delta tables",
-              link: "/delta-clustering",
+              slug: "delta-clustering",
             },
             {
-              label: "What are deletion vectors?",
-              link: "/delta-deletion-vectors",
+              slug: "delta-deletion-vectors",
             },
             {
-              label: "Drop Delta table features",
-              link: "/delta-drop-feature",
+              slug: "delta-drop-feature",
             },
             {
-              label: "Use row tracking for Delta tables",
-              link: "/delta-row-tracking",
+              slug: "delta-row-tracking",
             },
             {
-              label: "Storage configuration",
-              link: "/delta-storage",
+              slug: "delta-storage",
             },
             {
-              label: "Delta type widening",
-              link: "/delta-type-widening",
+              slug: "delta-type-widening",
             },
             {
-              label: "Universal Format (UniForm)",
-              link: "/delta-uniform",
+              slug: "delta-uniform",
             },
             {
-              label: "Read Delta Sharing Tables",
-              link: "/delta-sharing",
+              slug: "delta-sharing",
             },
             {
-              label: "Concurrency control",
-              link: "/concurrency-control",
+              slug: "concurrency-control",
             },
             {
-              label: "Migration guide",
-              link: "/porting",
+              slug: "porting",
             },
             {
-              label: "Best practices",
-              link: "/best-practices",
+              slug: "best-practices",
             },
             {
-              label: "Frequently asked questions (FAQ)",
-              link: "/delta-faq",
+              slug: "delta-faq",
             },
             {
-              label: "Optimizations",
-              link: "/optimiations-oss",
+              slug: "optimizations-oss",
             },
           ],
         },
         {
-          label: "Trino connector",
-          link: "/delta-trino-integration",
+          slug: "delta-trino-integration",
         },
         {
-          label: "Presto connector",
-          link: "/delta-presto-integration",
+          slug: "delta-presto-integration",
         },
         {
-          label: "AWS Redshift Spectrum connector",
-          link: "/redshift-spectrum-integration",
+          slug: "redshift-spectrum-integration",
         },
         {
-          label: "Snowflake connector",
-          link: "/snowflake-integration",
+          slug: "snowflake-integration",
         },
         {
-          label: "Google BigQuery connector",
-          link: "/bigquery-integration",
+          slug: "bigquery-integration",
         },
         {
-          label: "Apache Flink connector",
-          link: "/flink-integration",
+          slug: "flink-integration",
         },
         {
-          label: "Other connectors",
-          link: "/delta-more-connectors",
+          slug: "delta-more-connectors",
         },
         {
-          label: "Delta Kernel",
-          link: "/delta-kernel",
+          slug: "delta-kernel",
         },
         {
-          label: "Delta Standalone (deprecated)",
-          link: "/delta-standalone",
+          slug: "delta-standalone",
         },
         {
-          label: "Delta Lake APIs",
-          link: "/delta-apidoc",
+          slug: "delta-apidoc",
         },
         {
-          label: "Releases",
-          link: "/releases",
+          slug: "releases",
         },
         {
-          label: "Delta Lake Resources",
-          link: "/delta-resources",
+          slug: "delta-resources",
         },
         {
-          label: "Delta table properties reference",
-          link: "/table-properties",
+          slug: "table-properties",
         },
         {
           label: "Contribute",
