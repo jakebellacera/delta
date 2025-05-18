@@ -140,7 +140,7 @@ export default defineConfig({
           link: "/redshift-spectrum-integration",
         },
         {
-          label: "Snowflake integration",
+          label: "Snowflake connector",
           link: "/snowflake-integration",
         },
         {
@@ -152,12 +152,16 @@ export default defineConfig({
           link: "/flink-integration",
         },
         {
-          label: "Delta more connectors",
+          label: "Other connectors",
           link: "/delta-more-connectors",
         },
         {
           label: "Delta Kernel",
           link: "/delta-kernel",
+        },
+        {
+          label: "Delta Standalone (deprecated)",
+          link: "/delta-standalone",
         },
         {
           label: "Delta Lake APIs",
