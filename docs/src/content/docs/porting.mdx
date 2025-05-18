@@ -35,21 +35,16 @@ The [second example](#convert-to-delta-table) shows how to use `CONVERT TO TABLE
 
 1. Read the Parquet data into a DataFrame and then save the DataFrame's contents to a new directory in `delta` format:
 
-<Tabs>
-  <TabItem label="Python">
-    ```python data = spark.read.format("parquet").load("/data-pipeline")
-    data.write.format("delta").save("/tmp/delta/data-pipeline/") ```
-  </TabItem>
-</Tabs>
+   ```python
+   data = spark.read.format("parquet").load("/data-pipeline")
+   data.write.format("delta").save("/tmp/delta/data-pipeline/")
+   ```
 
 2. Create a Delta table named `events` that refers to the files in the new directory:
 
-<Tabs>
-  <TabItem label="Python">
-    ```python spark.sql("CREATE TABLE events USING DELTA LOCATION
-    '/tmp/delta/data-pipeline/'") ```
-  </TabItem>
-</Tabs>
+   ```python
+   spark.sql("CREATE TABLE events USING DELTA LOCATION '/tmp/delta/data-pipeline/'")
+   ```
 
 #### Convert to Delta table
 
@@ -57,21 +52,17 @@ You have two options for converting a Parquet table to a Delta table:
 
 - Convert files to Delta Lake format and then create a Delta table:
 
-<Tabs>
-  <TabItem label="SQL">
-    ```sql CONVERT TO DELTA parquet.`/data-pipeline/` CREATE TABLE events USING
-    DELTA LOCATION '/data-pipeline/' ```
-  </TabItem>
-</Tabs>
+  ```sql
+  CONVERT TO DELTA parquet.`/data-pipeline/`
+  CREATE TABLE events USING DELTA LOCATION '/data-pipeline/'
+  ```
 
 - Create a Parquet table and then convert it to a Delta table:
 
-<Tabs>
-  <TabItem label="SQL">
-    ```sql CREATE TABLE events USING PARQUET OPTIONS (path '/data-pipeline/')
-    CONVERT TO DELTA events ```
-  </TabItem>
-</Tabs>
+  ```sql
+  CREATE TABLE events USING PARQUET OPTIONS (path '/data-pipeline/')
+  CONVERT TO DELTA events
+  ```
 
 For details, see [Convert a Parquet table to a Delta table](/apache-spark-connector/table-utility-commands/#convert-a-parquet-table-to-a-delta-table).
 
@@ -81,10 +72,7 @@ This section discusses any changes that may be required in the user code when mi
 
 ### Below Delta Lake 3.0 to Delta Lake 3.0 or above
 
-<Aside type="note">
-  The Delta Lake on Spark Maven artifact has been renamed from `delta-core`
-  (before 3.0) to `delta-spark` (3.0 and above).
-</Aside>
+Please note that the Delta Lake on Spark Maven artifact has been renamed from `delta-core` (before 3.0) to `delta-spark` (3.0 and above).
 
 ### Delta Lake 2.1.1 or below to Delta Lake 2.2 or above
 
@@ -96,24 +84,19 @@ Delta Lake 1.2.1, 2.0.0 and 2.1.0 have a bug in their DynamoDB-based S3 multi-cl
 
 If you _already_ have TTL enabled on your DynamoDB table using the old attribute, you need to disable TTL for that attribute and then enable it for the new one. You may need to wait an hour between these two operations, as TTL settings changes may take some time to propagate. See the DynamoDB docs [here](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/time-to-live-ttl-before-you-start.html). If you don't do this, DyanmoDB's TTL feature will not remove any new and expired entries. There is no risk of data loss.
 
-<Tabs>
-  <TabItem label="Bash">
-    ```bash
-    # Disable TTL on old attribute
-    aws dynamodb update-time-to-live \
-      --region <region> \
-      --table-name <table-name> \
-      --time-to-live-specification "Enabled=false, AttributeName=commitTime"
+```bash
+# Disable TTL on old attribute
+aws dynamodb update-time-to-live \
+  --region <region> \
+  --table-name <table-name> \
+  --time-to-live-specification "Enabled=false, AttributeName=commitTime"
 
-    # Enable TTL on new attribute
-    aws dynamodb update-time-to-live \
-      --region <region> \
-      --table-name <table-name> \
-      --time-to-live-specification "Enabled=true, AttributeName=expireTime"
-    ```
-
-  </TabItem>
-</Tabs>
+# Enable TTL on new attribute
+aws dynamodb update-time-to-live \
+  --region <region> \
+  --table-name <table-name> \
+  --time-to-live-specification "Enabled=true, AttributeName=expireTime"
+```
 
 ### Delta Lake 2.0 or below to Delta Lake 2.1 or above
 
@@ -135,16 +118,34 @@ If the name of a partition column in a Delta table contains invalid characters (
 
 <Tabs>
   <TabItem label="Python">
-    ```python spark.read \ .format("delta") \ .load("/the/delta/table/path") \
-    .withColumnRenamed("column name", "column-name") \ .write \ .format("delta")
-    \ .mode("overwrite") \ .option("overwriteSchema", "true") \
-    .save("/the/delta/table/path") ```
+
+```python
+spark.read \
+  .format("delta") \
+  .load("/the/delta/table/path") \
+  .withColumnRenamed("column name", "column-name") \
+  .write \
+  .format("delta")\
+  .mode("overwrite") \
+  .option("overwriteSchema", "true") \
+  .save("/the/delta/table/path")
+```
+
   </TabItem>
   <TabItem label="Scala">
-    ```scala spark.read \ .format("delta") \ .load("/the/delta/table/path") \
-    .withColumnRenamed("column name", "column-name") \ .write \ .format("delta")
-    \ .mode("overwrite") \ .option("overwriteSchema", "true") \
-    .save("/the/delta/table/path") ```
+
+```scala
+spark.read
+  .format("delta")
+  .load("/the/delta/table/path")
+  .withColumnRenamed("column name", "column-name")
+  .write
+  .format("delta")
+  .mode("overwrite")
+  .option("overwriteSchema", "true")
+  .save("/the/delta/table/path")
+```
+
   </TabItem>
 </Tabs>
 
@@ -154,6 +155,7 @@ If you are using `DeltaTable` APIs in Scala, Java, or Python to [update](/apache
 
 <Tabs>
   <TabItem label="Python">
+
     ```python
     from pyspark.sql import SparkSession
 
@@ -168,6 +170,7 @@ If you are using `DeltaTable` APIs in Scala, Java, or Python to [update](/apache
 
   </TabItem>
   <TabItem label="Scala">
+
     ```scala
     import org.apache.spark.sql.SparkSession
 
@@ -182,6 +185,7 @@ If you are using `DeltaTable` APIs in Scala, Java, or Python to [update](/apache
 
   </TabItem>
   <TabItem label="Java">
+
     ```java
     import org.apache.spark.sql.SparkSession;
 
@@ -199,20 +203,16 @@ If you are using `DeltaTable` APIs in Scala, Java, or Python to [update](/apache
 
 Alternatively, you can add additional configurations when submitting you Spark application using `spark-submit` or when starting `spark-shell`/`pyspark` by specifying them as command line parameters.
 
-<Tabs>
-  <TabItem label="Bash">
-    ```bash spark-submit --conf
-    "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf
-    "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog"
-    ... ```
-  </TabItem>
-</Tabs>
+```bash
+spark-submit \
+  --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" \
+  --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" \
+  ...
+```
 
-<Tabs>
-  <TabItem label="Bash">
-    ```bash pyspark --conf
-    "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf
-    "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog"
-    ... ```
-  </TabItem>
-</Tabs>
+```bash
+pyspark \
+  --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" \
+  --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" \
+  ...
+```

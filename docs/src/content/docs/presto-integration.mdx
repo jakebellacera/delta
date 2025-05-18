@@ -6,12 +6,14 @@ description: Learn how to set up an integration to enable you to read Delta tabl
 import { Tabs, TabItem, Aside, Steps } from "@astrojs/starlight/components";
 
 <Aside type="caution" title="Important">
+
 Presto, Trino and Athena all have native support for Delta Lake. Support is as follows:
 
 - Presto [version 0.269](https://prestodb.io/docs/0.269/release/release-0.269.html#delta-lake-connector-changes) and above natively supports reading the Delta Lake tables. For details on using the native Delta Lake connector, see [Delta Lake Connector - Presto](https://prestodb.io/docs/current/connector/deltalake.html). For Presto versions lower than [0.269](https://prestodb.io/docs/0.269/release/release-0.269.html#delta-lake-connector-changes), you can use the manifest-based approach in this article.
 - Trino [version 373](https://trino.io/docs/current/release/release-373.html) and above natively supports reading and writing the Delta Lake tables. For details on using the native Delta Lake connector, see [Delta Lake Connector - Trino](https://trino.io/docs/current/connector/delta-lake.html). For Trino versions lower than [version 373](https://trino.io/docs/current/release/release-373.html), you can use the manifest-based approach detailed in this article.
 - Athena [version 3](https://docs.aws.amazon.com/athena/latest/ug/engine-versions-reference-0003.html) and above natively supports reading Delta Lake tables. For details on using the native Delta Lake connector, see [Querying Delta Lake tables](https://docs.aws.amazon.com/athena/latest/ug/delta-lake-tables.html). For Athena versions lower than [version 3](https://docs.aws.amazon.com/athena/latest/ug/engine-versions-reference-0003.html), you can use the manifest-based approach detailed in this article.
-  </Aside>
+
+</Aside>
 
 Presto, Trino, and Athena support reading from external tables using a _manifest file_, which is a text file containing the list of data files to read for querying a table. When an external table is defined in the Hive metastore using manifest files, Presto, Trino, and Athena can use the list of files in the manifest rather than finding the files by directory listing. This article describes how to set up a Presto, Trino, and Athena to Delta Lake integration using manifest files and query Delta tables.
 

@@ -31,9 +31,17 @@ To enable UniForm, you must fulfill the following requirements:
 <Aside type="caution" title="Important">
   Enabling Delta UniForm Iceberg requires the Delta table feature `IcebergCompatV2`, a write protocol feature. Only clients that support this table feature can write to enabled tables. You must use Delta Lake 3.1 or above to write to Delta tables with this feature enabled.
 
-Enabling Delta UniForm Iceberg requires "delta-iceberg" to be provided to Spark shell: –packages io.delta:io.delta:delta-iceberg_2.12:VERSION
+Enabling Delta UniForm Iceberg requires "delta-iceberg" to be provided to Spark shell:
 
-Enabling Delta UniForm Hudi requires "delta-hudi" to be provided to Spark shell: –packages io.delta:io.delta:delta-hudi_2.12:VERSION
+```
+--packages io.delta:io.delta:delta-iceberg_2.12:<version>
+```
+
+Enabling Delta UniForm Hudi requires "delta-hudi" to be provided to Spark shell:
+
+```
+--packages io.delta:io.delta:delta-hudi_2.12:<version>
+```
 
 </Aside>
 
@@ -59,13 +67,22 @@ The following table properties enable UniForm support for both.
 
 You must also enable column mapping to use UniForm. It is set automatically during table creation, as in the following example:
 
+<Tabs>
+<TabItem label="SQL">
+
 ```sql
 CREATE TABLE T(c1 INT) USING DELTA TBLPROPERTIES(
   'delta.enableIcebergCompatV2' = 'true',
   'delta.universalFormat.enabledFormats' = 'iceberg');
 ```
 
+</TabItem>
+</Tabs>
+
 In Delta 3.3 and above, you can enable or upgrade UniForm Iceberg on an existing table using the following syntax:
+
+<Tabs>
+<TabItem label="SQL">
 
 ```sql
 ALTER TABLE table_name SET TBLPROPERTIES(
@@ -73,11 +90,20 @@ ALTER TABLE table_name SET TBLPROPERTIES(
   'delta.universalFormat.enabledFormats' = 'iceberg');
 ```
 
+</TabItem>
+</Tabs>
+
 You can also use REORG to enable UniForm Iceberg and rewrite underlying data files, as in the following example:
+
+<Tabs>
+<TabItem label="SQL">
 
 ```sql
 REORG TABLE table_name APPLY (UPGRADE UNIFORM(ICEBERG_COMPAT_VERSION=2));
 ```
+
+</TabItem>
+</Tabs>
 
 Use REORG if any of following are true:
 
@@ -87,9 +113,15 @@ Use REORG if any of following are true:
 
 You can enable UniForm Hudi on an existing table using the following syntax:
 
+<Tabs>
+<TabItem label="SQL">
+
 ```sql
 ALTER TABLE table_name SET TBLPROPERTIES ('delta.universalFormat.enabledFormats' = 'hudi');
 ```
+
+</TabItem>
+</Tabs>
 
 <Aside type="note">
   This syntax requires [Delta column
@@ -139,11 +171,13 @@ UniForm adds the following properties to Iceberg/Hudi table metadata to track me
 See documentation for your Iceberg/Hudi reader client for how to review table properties outside Delta Lake. For Apache Spark, you can see these properties using the following syntax:
 
 <Tabs>
-  <TabItem label="SQL">
-    ```sql
-    SHOW TBLPROPERTIES <table-name>;
-    ```
-  </TabItem>
+<TabItem label="SQL">
+
+```sql
+SHOW TBLPROPERTIES <table-name>;
+```
+
+</TabItem>
 </Tabs>
 
 ## Read UniForm tables as Iceberg tables in Apache Spark
@@ -173,10 +207,15 @@ You are able to read UniForm tables as Hudi tables in Apache Spark with the foll
 - See [Hudi documentation](https://hudi.apache.org/docs/quick-start-guide#spark-shellsql) for how to run Hudi on Apache Spark
 
 <Tabs>
-  <TabItem label="Scala">
-    ```scala spark.read.format("hudi") .option("hoodie.metadata.enable", "true")
-    .load("PATH_TO_UNIFORM_TABLE_DIRECTORY") ```
-  </TabItem>
+<TabItem label="Scala">
+
+```scala
+spark.read.format("hudi")
+  .option("hoodie.metadata.enable", "true")
+  .load("PATH_TO_UNIFORM_TABLE_DIRECTORY")
+```
+
+</TabItem>
 </Tabs>
 
 ## Delta and Iceberg/Hudi table versions

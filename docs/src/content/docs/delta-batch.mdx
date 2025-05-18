@@ -64,17 +64,26 @@ CREATE OR REPLACE TABLE delta.`/tmp/delta/people10m` (
 
 <Tabs>
   <TabItem label="Python">
-    ```python # Create table in the metastore using DataFrame's schema and write
-    data to it df.write.format("delta").saveAsTable("default.people10m") #
-    Create or replace partitioned table with path using DataFrame's schema and
-    write/overwrite data to it
-    df.write.format("delta").mode("overwrite").save("/tmp/delta/people10m") ```
+
+    ```python
+    # Create table in the metastore using DataFrame's schema and write data to it
+    df.write.format("delta").saveAsTable("default.people10m")
+
+    # Create or replace partitioned table with path using DataFrame's schema and write/overwrite data to it
+    df.write.format("delta").mode("overwrite").save("/tmp/delta/people10m")
+    ```
+
   </TabItem>
   <TabItem label="Scala">
-    ```scala // Create table in the metastore using DataFrame's schema and write
-    data to it df.write.format("delta").saveAsTable("default.people10m") //
-    Create table with path using DataFrame's schema and write data to it
-    df.write.format("delta").mode("overwrite").save("/tmp/delta/people10m") ```
+
+    ```scala
+    // Create table in the metastore using DataFrame's schema and write data to it
+    df.write.format("delta").saveAsTable("default.people10m")
+
+    // Create table with path using DataFrame's schema and write data to it
+    df.write.format("delta").mode("overwrite").save("/tmp/delta/people10m")
+    ```
+
   </TabItem>
 </Tabs>
 
@@ -86,40 +95,80 @@ You can also create Delta tables using the Spark `DataFrameWriterV2` API.
   This feature is new and is in Preview.
   <Tabs>
     <TabItem label="Python">
-      ```python # Create table in the metastore
-      DeltaTable.createIfNotExists(spark) \ .tableName("default.people10m") \
-      .addColumn("id", "INT") \ .addColumn("firstName", "STRING") \
-      .addColumn("middleName", "STRING") \ .addColumn("lastName", "STRING",
-      comment = "surname") \ .addColumn("gender", "STRING") \
-      .addColumn("birthDate", "TIMESTAMP") \ .addColumn("ssn", "STRING") \
-      .addColumn("salary", "INT") \ .execute() # Create or replace table with
-      path and add properties DeltaTable.createOrReplace(spark) \
-      .addColumn("id", "INT") \ .addColumn("firstName", "STRING") \
-      .addColumn("middleName", "STRING") \ .addColumn("lastName", "STRING",
-      comment = "surname") \ .addColumn("gender", "STRING") \
-      .addColumn("birthDate", "TIMESTAMP") \ .addColumn("ssn", "STRING") \
-      .addColumn("salary", "INT") \ .property("description", "table with people
-      data") \ .location("/tmp/delta/people10m") \ .execute() ```
+      
+      ```python
+      # Create table in the metastore
+      DeltaTable.createIfNotExists(spark) \
+        .tableName("default.people10m") \
+        .addColumn("id", "INT") \
+        .addColumn("firstName", "STRING") \
+        .addColumn("middleName", "STRING") \
+        .addColumn("lastName", "STRING", comment = "surname") \
+        .addColumn("gender", "STRING") \
+        .addColumn("birthDate", "TIMESTAMP") \
+        .addColumn("ssn", "STRING") \
+        .addColumn("salary", "INT") \
+        .execute()
+
+      # Create or replace table with path and add properties
+      DeltaTable.createOrReplace(spark) \
+        .addColumn("id", "INT") \
+        .addColumn("firstName", "STRING") \
+        .addColumn("middleName", "STRING") \
+        .addColumn("lastName", "STRING", comment = "surname") \
+        .addColumn("gender", "STRING") \
+        .addColumn("birthDate", "TIMESTAMP") \
+        .addColumn("ssn", "STRING") \
+        .addColumn("salary", "INT") \
+        .property("description", "table with people data") \
+        .location("/tmp/delta/people10m") \
+        .execute()
+      ```
+
     </TabItem>
     <TabItem label="Scala">
-      ```scala // Create table in the metastore
-      DeltaTable.createOrReplace(spark) .tableName("default.people10m")
-      .addColumn("id", "INT") .addColumn("firstName", "STRING")
-      .addColumn("middleName", "STRING") .addColumn(
-      DeltaTable.columnBuilder("lastName") .dataType("STRING")
-      .comment("surname") .build()) .addColumn("lastName", "STRING", comment =
-      "surname") .addColumn("gender", "STRING") .addColumn("birthDate",
-      "TIMESTAMP") .addColumn("ssn", "STRING") .addColumn("salary", "INT")
-      .execute() // Create or replace table with path and add properties
-      DeltaTable.createOrReplace(spark) .addColumn("id", "INT")
-      .addColumn("firstName", "STRING") .addColumn("middleName", "STRING")
-      .addColumn( DeltaTable.columnBuilder("lastName") .dataType("STRING")
-      .comment("surname") .build()) .addColumn("lastName", "STRING", comment =
-      "surname") .addColumn("gender", "STRING") .addColumn("birthDate",
-      "TIMESTAMP") .addColumn("ssn", "STRING") .addColumn("salary", "INT")
-      .property("description", "table with people data")
-      .location("/tmp/delta/people10m") .execute() ```
+
+      ```scala
+      // Create table in the metastore
+      DeltaTable.createOrReplace(spark)
+        .tableName("default.people10m")
+        .addColumn("id", "INT")
+        .addColumn("firstName", "STRING")
+        .addColumn("middleName", "STRING")
+        .addColumn(
+          DeltaTable.columnBuilder("lastName")
+            .dataType("STRING")
+            .comment("surname")
+            .build())
+        .addColumn("lastName", "STRING", comment = "surname")
+        .addColumn("gender", "STRING")
+        .addColumn("birthDate", "TIMESTAMP")
+        .addColumn("ssn", "STRING")
+        .addColumn("salary", "INT")
+        .execute()
+
+      // Create or replace table with path and add properties
+      DeltaTable.createOrReplace(spark)
+        .addColumn("id", "INT")
+        .addColumn("firstName", "STRING")
+        .addColumn("middleName", "STRING")
+        .addColumn(
+          DeltaTable.columnBuilder("lastName")
+            .dataType("STRING")
+            .comment("surname")
+            .build())
+        .addColumn("lastName", "STRING", comment = "surname")
+        .addColumn("gender", "STRING")
+        .addColumn("birthDate", "TIMESTAMP")
+        .addColumn("ssn", "STRING")
+        .addColumn("salary", "INT")
+        .property("description", "table with people data")
+        .location("/tmp/delta/people10m")
+        .execute()
+      ```
+
     </TabItem>
+
   </Tabs>
 </Aside>
 
@@ -131,32 +180,68 @@ You can partition data to speed up queries or DML that have predicates involving
 
 <Tabs>
   <TabItem label="SQL">
-    ```sql -- Create table in the metastore CREATE TABLE default.people10m ( id
-    INT, firstName STRING, middleName STRING, lastName STRING, gender STRING,
-    birthDate TIMESTAMP, ssn STRING, salary INT ) USING DELTA PARTITIONED BY
-    (gender) ```
+
+    ```sql
+    -- Create table in the metastore
+    CREATE TABLE default.people10m (
+      id INT,
+      firstName STRING,
+      middleName STRING,
+      lastName STRING,
+      gender STRING,
+      birthDate TIMESTAMP,
+      ssn STRING,
+      salary INT
+    )
+    USING DELTA
+    PARTITIONED BY (gender)
+    ```
+
   </TabItem>
   <TabItem label="Python">
+
     ```python
     df.write.format("delta").partitionBy("gender").saveAsTable("default.people10m")
-    DeltaTable.create(spark) \ .tableName("default.people10m") \
-    .addColumn("id", "INT") \ .addColumn("firstName", "STRING") \
-    .addColumn("middleName", "STRING") \ .addColumn("lastName", "STRING",
-    comment = "surname") \ .addColumn("gender", "STRING") \
-    .addColumn("birthDate", "TIMESTAMP") \ .addColumn("ssn", "STRING") \
-    .addColumn("salary", "INT") \ .partitionedBy("gender") \ .execute() ```
+
+    DeltaTable.create(spark) \
+      .tableName("default.people10m") \
+      .addColumn("id", "INT") \
+      .addColumn("firstName", "STRING") \
+      .addColumn("middleName", "STRING") \
+      .addColumn("lastName", "STRING", comment = "surname") \
+      .addColumn("gender", "STRING") \
+      .addColumn("birthDate", "TIMESTAMP") \
+      .addColumn("ssn", "STRING") \
+      .addColumn("salary", "INT") \
+      .partitionedBy("gender") \
+      .execute()
+    ```
+
   </TabItem>
   <TabItem label="Scala">
+  
     ```scala
     df.write.format("delta").partitionBy("gender").saveAsTable("default.people10m")
-    DeltaTable.createOrReplace(spark) .tableName("default.people10m")
-    .addColumn("id", "INT") .addColumn("firstName", "STRING")
-    .addColumn("middleName", "STRING") .addColumn(
-    DeltaTable.columnBuilder("lastName") .dataType("STRING") .comment("surname")
-    .build()) .addColumn("lastName", "STRING", comment = "surname")
-    .addColumn("gender", "STRING") .addColumn("birthDate", "TIMESTAMP")
-    .addColumn("ssn", "STRING") .addColumn("salary", "INT")
-    .partitionedBy("gender") .execute() ```
+
+    DeltaTable.createOrReplace(spark)
+      .tableName("default.people10m")
+      .addColumn("id", "INT")
+      .addColumn("firstName", "STRING")
+      .addColumn("middleName", "STRING")
+      .addColumn(
+        DeltaTable.columnBuilder("lastName")
+          .dataType("STRING")
+          .comment("surname")
+          .build())
+      .addColumn("lastName", "STRING", comment = "surname")
+      .addColumn("gender", "STRING")
+      .addColumn("birthDate", "TIMESTAMP")
+      .addColumn("ssn", "STRING")
+      .addColumn("salary", "INT")
+      .partitionedBy("gender")
+      .execute()
+    ```
+
   </TabItem>
 </Tabs>
 
@@ -234,25 +319,51 @@ The following example shows how to create a table with generated columns:
 
 <Tabs>
   <TabItem label="Python">
-    ```python DeltaTable.create(spark) \ .tableName("default.people10m") \
-    .addColumn("id", "INT") \ .addColumn("firstName", "STRING") \
-    .addColumn("middleName", "STRING") \ .addColumn("lastName", "STRING",
-    comment = "surname") \ .addColumn("gender", "STRING") \
-    .addColumn("birthDate", "TIMESTAMP") \ .addColumn("dateOfBirth", DateType(),
-    generatedAlwaysAs="CAST(birthDate AS DATE)") \ .addColumn("ssn", "STRING") \
-    .addColumn("salary", "INT") \ .partitionedBy("gender") \ .execute() ```
+  
+    ```python
+    DeltaTable.create(spark) \
+      .tableName("default.people10m") \
+      .addColumn("id", "INT") \
+      .addColumn("firstName", "STRING") \
+      .addColumn("middleName", "STRING") \
+      .addColumn("lastName", "STRING", comment = "surname") \
+      .addColumn("gender", "STRING") \
+      .addColumn("birthDate", "TIMESTAMP") \
+      .addColumn("dateOfBirth", DateType(), generatedAlwaysAs="CAST(birthDate AS DATE)") \
+      .addColumn("ssn", "STRING") \
+      .addColumn("salary", "INT") \
+      .partitionedBy("gender") \
+      .execute()
+    ```
+  
   </TabItem>
   <TabItem label="Scala">
-    ```scala DeltaTable.create(spark) .tableName("default.people10m")
-    .addColumn("id", "INT") .addColumn("firstName", "STRING")
-    .addColumn("middleName", "STRING") .addColumn(
-    DeltaTable.columnBuilder("lastName") .dataType("STRING") .comment("surname")
-    .build()) .addColumn("lastName", "STRING", comment = "surname")
-    .addColumn("gender", "STRING") .addColumn("birthDate", "TIMESTAMP")
-    .addColumn( DeltaTable.columnBuilder("dateOfBirth") .dataType(DateType)
-    .generatedAlwaysAs("CAST(dateOfBirth AS DATE)") .build()) .addColumn("ssn",
-    "STRING") .addColumn("salary", "INT") .partitionedBy("gender") .execute()
+
+    ```scala
+    DeltaTable.create(spark)
+      .tableName("default.people10m")
+      .addColumn("id", "INT")
+      .addColumn("firstName", "STRING")
+      .addColumn("middleName", "STRING")
+      .addColumn(
+        DeltaTable.columnBuilder("lastName")
+          .dataType("STRING")
+          .comment("surname")
+          .build())
+      .addColumn("lastName", "STRING", comment = "surname")
+      .addColumn("gender", "STRING")
+      .addColumn("birthDate", "TIMESTAMP")
+      .addColumn(
+        DeltaTable.columnBuilder("dateOfBirth")
+        .dataType(DateType)
+        .generatedAlwaysAs("CAST(dateOfBirth AS DATE)")
+        .build())
+      .addColumn("ssn", "STRING")
+      .addColumn("salary", "INT")
+      .partitionedBy("gender")
+      .execute()
     ```
+
   </TabItem>
 </Tabs>
 
@@ -342,28 +453,48 @@ Delta Lake identity columns are supported in Delta Lake 3.3 and above. They are 
 
 <Tabs>
   <TabItem label="Python">
-    ```python from delta.tables import DeltaTable, IdentityGenerator from
-    pyspark.sql.types import LongType DeltaTable.create()
-    .tableName("table_name") .addColumn("id_col1", dataType=LongType(),
-    generatedAlwaysAs=IdentityGenerator()) .addColumn("id_col2",
-    dataType=LongType(), generatedAlwaysAs=IdentityGenerator(start=-1, step=1))
-    .addColumn("id_col3", dataType=LongType(),
-    generatedByDefaultAs=IdentityGenerator()) .addColumn("id_col4",
-    dataType=LongType(), generatedByDefaultAs=IdentityGenerator(start=-1,
-    step=1)) .execute() ```
+  
+    ```python
+    from delta.tables import DeltaTable, IdentityGenerator
+    from pyspark.sql.types import LongType
+
+    DeltaTable.create()
+      .tableName("table_name")
+      .addColumn("id_col1", dataType=LongType(), generatedAlwaysAs=IdentityGenerator())
+      .addColumn("id_col2", dataType=LongType(), generatedAlwaysAs=IdentityGenerator(start=-1, step=1))
+      .addColumn("id_col3", dataType=LongType(), generatedByDefaultAs=IdentityGenerator())
+      .addColumn("id_col4", dataType=LongType(), generatedByDefaultAs=IdentityGenerator(start=-1, step=1))
+      .execute()
+    ```
+
   </TabItem>
   <TabItem label="Scala">
-    ```scala import io.delta.tables.DeltaTable import
-    org.apache.spark.sql.types.LongType DeltaTable.create(spark)
-    .tableName("table_name") .addColumn( DeltaTable.columnBuilder(spark,
-    "id_col1") .dataType(LongType) .generatedAlwaysAsIdentity().build())
-    .addColumn( DeltaTable.columnBuilder(spark, "id_col2") .dataType(LongType)
-    .generatedAlwaysAsIdentity(start = -1L, step = 1L).build()) .addColumn(
-    DeltaTable.columnBuilder(spark, "id_col3") .dataType(LongType)
-    .generatedByDefaultAsIdentity().build()) .addColumn(
-    DeltaTable.columnBuilder(spark, "id_col4") .dataType(LongType)
-    .generatedByDefaultAsIdentity(start = -1L, step = 1L).build()) .execute()
+  
+    ```scala
+    import io.delta.tables.DeltaTable
+    import org.apache.spark.sql.types.LongType
+
+    DeltaTable.create(spark)
+      .tableName("table_name")
+      .addColumn(
+        DeltaTable.columnBuilder(spark, "id_col1")
+          .dataType(LongType)
+          .generatedAlwaysAsIdentity().build())
+      .addColumn(
+        DeltaTable.columnBuilder(spark, "id_col2")
+          .dataType(LongType)
+          .generatedAlwaysAsIdentity(start = -1L, step = 1L).build())
+      .addColumn(
+        DeltaTable.columnBuilder(spark, "id_col3")
+          .dataType(LongType)
+          .generatedByDefaultAsIdentity().build())
+      .addColumn(
+        DeltaTable.columnBuilder(spark, "id_col4")
+          .dataType(LongType)
+          .generatedByDefaultAsIdentity(start = -1L, step = 1L).build())
+      .execute()
     ```
+
   </TabItem>
 </Tabs>
 
@@ -402,34 +533,74 @@ The following example define the identity column to be `generated by default as 
 
 <Tabs>
   <TabItem label="Python">
-    ```python from delta.tables import DeltaTable, IdentityGenerator from
-    pyspark.sql.types import LongType, DateType DeltaTable.create(spark)
-    .tableName("new_table") .addColumn("id", dataType=LongType(),
-    generatedByDefaultAs=IdentityGenerator(start=5, step=1))
-    .addColumn("event_date", dataType=DateType()) .addColumn("some_value",
-    dataType=LongType()) .execute() # Insert records including existing IDs
-    old_table_df = spark.table("old_table").select("id", "event_date",
-    "some_value") old_table_df.write .format("delta") .mode("append")
-    .saveAsTable("new_table") # Insert records and generate new IDs
-    new_records_df = spark.table("new_records").select("event_date",
-    "some_value") new_records_df.write .format("delta") .mode("append")
-    .saveAsTable("new_table") ```
+  
+    ```python 
+    from delta.tables import DeltaTable, IdentityGenerator
+    from pyspark.sql.types import LongType, DateType
+
+    DeltaTable.create(spark)
+      .tableName("new_table")
+      .addColumn("id", dataType=LongType(), generatedByDefaultAs=IdentityGenerator(start=5, step=1))
+      .addColumn("event_date", dataType=DateType())
+      .addColumn("some_value", dataType=LongType())
+      .execute()
+
+    # Insert records including existing IDs
+    old_table_df = spark.table("old_table").select("id", "event_date", "some_value")
+    old_table_df.write
+      .format("delta")
+      .mode("append")
+      .saveAsTable("new_table")
+
+    # Insert records and generate new IDs
+    new_records_df = spark.table("new_records").select("event_date", "some_value")
+    new_records_df.write
+      .format("delta")
+      .mode("append")
+      .saveAsTable("new_table")
+    ```
+
   </TabItem>
   <TabItem label="Scala">
-    ```scala import org.apache.spark.sql.types._ import
-    io.delta.tables.DeltaTable DeltaTable.createOrReplace(spark)
-    .tableName("new_table") .addColumn( DeltaTable.columnBuilder(spark, "id")
-    .dataType(LongType) .generatedByDefaultAsIdentity(start = 5L, step = 1L)
-    .build()) .addColumn( DeltaTable.columnBuilder(spark, "event_date")
-    .dataType(DateType) .nullable(true) .build()) .addColumn(
-    DeltaTable.columnBuilder(spark, "some_value") .dataType(LongType)
-    .nullable(true) .build()) .execute() // Insert records including existing
-    IDs val oldTableDF = spark.table("old_table").select("id", "event_date",
-    "some_value") oldTableDF.write .format("delta") .mode("append")
-    .saveAsTable("new_table") // Insert records and generate new IDs val
-    newRecordsDF = spark.table("new_records").select("event_date", "some_value")
-    newRecordsDF.write .format("delta") .mode("append")
-    .saveAsTable("new_table") ```
+  
+    ```scala
+    import org.apache.spark.sql.types._
+    import io.delta.tables.DeltaTable
+
+    DeltaTable.createOrReplace(spark)
+      .tableName("new_table")
+      .addColumn(
+        DeltaTable.columnBuilder(spark, "id")
+          .dataType(LongType)
+          .generatedByDefaultAsIdentity(start = 5L, step = 1L)
+          .build())
+      .addColumn(
+        DeltaTable.columnBuilder(spark, "event_date")
+          .dataType(DateType)
+          .nullable(true)
+          .build())
+      .addColumn(
+        DeltaTable.columnBuilder(spark, "some_value")
+          .dataType(LongType)
+          .nullable(true)
+          .build())
+      .execute()
+
+    // Insert records including existing IDs
+    val oldTableDF = spark.table("old_table").select("id", "event_date", "some_value")
+    oldTableDF.write
+      .format("delta")
+      .mode("append")
+      .saveAsTable("new_table")
+
+    // Insert records and generate new IDs
+    val newRecordsDF = spark.table("new_records").select("event_date", "some_value")
+    newRecordsDF.write
+      .format("delta")
+      .mode("append")
+      .saveAsTable("new_table")
+    ```
+
   </TabItem>
 </Tabs>
 
@@ -475,6 +646,7 @@ You can load a Delta table as a DataFrame by specifying a table name or a path:
 
 <Tabs>
   <TabItem label="SQL" active>
+
     ```sql
     SELECT * FROM default.people10m   -- query table in the metastore
 
@@ -483,6 +655,7 @@ You can load a Delta table as a DataFrame by specifying a table name or a path:
 
   </TabItem>
   <TabItem label="Python">
+
     ```python
     spark.table("default.people10m")    # query table in the metastore
 
@@ -491,6 +664,7 @@ You can load a Delta table as a DataFrame by specifying a table name or a path:
 
   </TabItem>
   <TabItem label="Scala">
+
     ```scala
     spark.table("default.people10m")      // query table in the metastore
 
@@ -580,33 +754,37 @@ df = spark.read.format("delta").option("versionAsOf", latest_version[0][0]).load
 
 #### Examples
 
-<Tabs>
-  <TabItem label="Fix accidental deletes">
-    ```python yesterday = spark.sql("SELECT CAST(date_sub(current_date(), 1) AS
-    STRING)").collect()[0][0] df =
-    spark.read.format("delta").option("timestampAsOf",
-    yesterday).load("/tmp/delta/events") df.where("userId =
-    111").write.format("delta").mode("append").save("/tmp/delta/events") ```
-  </TabItem>
-  <TabItem label="Fix incorrect updates">
-    ```python yesterday = spark.sql("SELECT CAST(date_sub(current_date(), 1) AS
-    STRING)").collect()[0][0] df =
-    spark.read.format("delta").option("timestampAsOf",
-    yesterday).load("/tmp/delta/events")
-    df.createOrReplaceTempView("my_table_yesterday") spark.sql(''' MERGE INTO
-    delta.`/tmp/delta/events` target USING my_table_yesterday source ON
-    source.userId = target.userId WHEN MATCHED THEN UPDATE SET * ''') ```
-  </TabItem>
-  <TabItem label="Query new customers">
-    ```python last_week = spark.sql("SELECT CAST(date_sub(current_date(), 7) AS
-    STRING)").collect()[0][0] df =
-    spark.read.format("delta").option("timestampAsOf",
-    last_week).load("/tmp/delta/events") last_week_count =
-    df.select("userId").distinct().count() count =
-    spark.read.format("delta").load("/tmp/delta/events").select("userId").distinct().count()
-    new_customers_count = count - last_week_count ```
-  </TabItem>
-</Tabs>
+- Fix accidental deletes to a table for the user 111:
+
+  ```python
+  yesterday = spark.sql("SELECT CAST(date_sub(current_date(), 1) AS STRING)").collect()[0][0]
+  df = spark.read.format("delta").option("timestampAsOf", yesterday).load("/tmp/delta/events")
+  df.where("userId = 111").write.format("delta").mode("append").save("/tmp/delta/events")
+  ```
+
+- Fix accidental incorrect updates to a table:
+
+  ```python
+  yesterday = spark.sql("SELECT CAST(date_sub(current_date(), 1) AS STRING)").collect()[0][0]
+  df = spark.read.format("delta").option("timestampAsOf", yesterday).load("/tmp/delta/events")
+  df.createOrReplaceTempView("my_table_yesterday")
+  spark.sql('''
+  MERGE INTO delta.`/tmp/delta/events` target
+    USING my_table_yesterday source
+    ON source.userId = target.userId
+    WHEN MATCHED THEN UPDATE SET *
+  ''')
+  ```
+
+- Query the number of new customers added over the last week:
+
+  ```python
+  last_week = spark.sql("SELECT CAST(date_sub(current_date(), 7) AS STRING)").collect()[0][0]
+  df = spark.read.format("delta").option("timestampAsOf", last_week).load("/tmp/delta/events")
+  last_week_count = df.select("userId").distinct().count()
+  count = spark.read.format("delta").load("/tmp/delta/events").select("userId").distinct().count()
+  new_customers_count = count - last_week_count
+  ```
 
 ### Data retention
 
@@ -662,10 +840,12 @@ This is a [writer table feature](/apache-spark-connector/versioning/#-what-are-t
 
 <Tabs>
   <TabItem label="SQL">
+
     ```sql
     ALTER TABLE <table_name>
     SET TBLPROPERTIES ('delta.enableInCommitTimestamps' = 'true');
     ```
+
   </TabItem>
 </Tabs>
 
@@ -687,19 +867,30 @@ To atomically add new data to an existing Delta table, use `append` mode:
     label="SQL"
     active
   >
-    ```sql INSERT INTO default.people10m SELECT * FROM morePeople ```
+
+    ```sql
+    INSERT INTO default.people10m SELECT * FROM morePeople
+    ```
+
   </TabItem>
   <TabItem label="Python">
+
     ```python
     df.write.format("delta").mode("append").save("/tmp/delta/people10m")
-    df.write.format("delta").mode("append").saveAsTable("default.people10m") ```
+    df.write.format("delta").mode("append").saveAsTable("default.people10m")
+    ```
+
   </TabItem>
   <TabItem label="Scala">
+
     ```scala
     df.write.format("delta").mode("append").save("/tmp/delta/people10m")
     df.write.format("delta").mode("append").saveAsTable("default.people10m")
+
     import io.delta.implicits._
-    df.write.mode("append").delta("/tmp/delta/people10m") ```
+    df.write.mode("append").delta("/tmp/delta/people10m")
+    ```
+
   </TabItem>
 </Tabs>
 
@@ -712,20 +903,30 @@ To atomically replace all the data in a table, use `overwrite` mode:
     label="SQL"
     active
   >
-    ```sql INSERT OVERWRITE TABLE default.people10m SELECT * FROM morePeople ```
+
+    ```sql
+    INSERT OVERWRITE TABLE default.people10m SELECT * FROM morePeople
+    ```
+
   </TabItem>
   <TabItem label="Python">
+
     ```python
     df.write.format("delta").mode("overwrite").save("/tmp/delta/people10m")
     df.write.format("delta").mode("overwrite").saveAsTable("default.people10m")
     ```
+
   </TabItem>
   <TabItem label="Scala">
+
     ```scala
     df.write.format("delta").mode("overwrite").save("/tmp/delta/people10m")
     df.write.format("delta").mode("overwrite").saveAsTable("default.people10m")
+
     import io.delta.implicits._
-    df.write.mode("overwrite").delta("/tmp/delta/people10m") ```
+    df.write.mode("overwrite").delta("/tmp/delta/people10m")
+    ```
+
   </TabItem>
 </Tabs>
 
@@ -735,6 +936,7 @@ The following command atomically replaces events in January in the target table,
 
 <Tabs>
   <TabItem label="Python" active>
+
     ```python
     replace_data.write \
       .format("delta") \
@@ -742,8 +944,10 @@ The following command atomically replaces events in January in the target table,
       .option("replaceWhere", "start_date >= '2017-01-01' AND end_date <= '2017-01-31'") \
       .save("/tmp/delta/events")
     ```
+
   </TabItem>
   <TabItem label="Scala">
+
     ```scala
     replace_data.write
       .format("delta")
@@ -751,11 +955,14 @@ The following command atomically replaces events in January in the target table,
       .option("replaceWhere", "start_date >= '2017-01-01' AND end_date <= '2017-01-31'")
       .save("/tmp/delta/events")
     ```
+
   </TabItem>
   <TabItem label="SQL">
+
     ```sql
     INSERT INTO TABLE events REPLACE WHERE start_data >= '2017-01-01' AND end_date <= '2017-01-31' SELECT * FROM replace_data
     ```
+
   </TabItem>
 </Tabs>
 
@@ -766,18 +973,25 @@ This sample code writes out the data in `replace_data`, validates that it all ma
     label="Python"
     active
   >
+
     ```python
-    spark.conf.set("spark.databricks.delta.replaceWhere.constraintCheck.enabled",
-    False) ```
+    spark.conf.set("spark.databricks.delta.replaceWhere.constraintCheck.enabled", False)
+    ```
+
   </TabItem>
   <TabItem label="Scala">
+
     ```scala
-    spark.conf.set("spark.databricks.delta.replaceWhere.constraintCheck.enabled",
-    false) ```
+    spark.conf.set("spark.databricks.delta.replaceWhere.constraintCheck.enabled", false)
+    ```
+
   </TabItem>
   <TabItem label="SQL">
-    ```sql SET spark.databricks.delta.replaceWhere.constraintCheck.enabled=false
+
+    ```sql
+    SET spark.databricks.delta.replaceWhere.constraintCheck.enabled=false
     ```
+
   </TabItem>
 </Tabs>
 
@@ -785,6 +999,7 @@ In Delta Lake 1.0.0 and below, `replaceWhere` overwrites data matching a predica
 
 <Tabs>
   <TabItem label="Python" active>
+
     ```python
     df.write \
       .format("delta") \
@@ -792,8 +1007,10 @@ In Delta Lake 1.0.0 and below, `replaceWhere` overwrites data matching a predica
       .option("replaceWhere", "birthDate >= '2017-01-01' AND birthDate <= '2017-01-31'") \
       .save("/tmp/delta/people10m")
     ```
+
   </TabItem>
   <TabItem label="Scala">
+
     ```scala
     df.write
       .format("delta")
@@ -801,6 +1018,7 @@ In Delta Lake 1.0.0 and below, `replaceWhere` overwrites data matching a predica
       .option("replaceWhere", "birthDate >= '2017-01-01' AND birthDate <= '2017-01-31'")
       .save("/tmp/delta/people10m")
     ```
+
   </TabItem>
 </Tabs>
 
@@ -811,17 +1029,24 @@ In Delta Lake 1.1.0 and above, if you want to fall back to the old behavior, you
     label="Python"
     active
   >
+
     ```python
-    spark.conf.set("spark.databricks.delta.replaceWhere.dataColumns.enabled",
-    False) ```
+    spark.conf.set("spark.databricks.delta.replaceWhere.dataColumns.enabled", False)
+    ```
+
   </TabItem>
   <TabItem label="Scala">
     ```scala
-    spark.conf.set("spark.databricks.delta.replaceWhere.dataColumns.enabled",
-    false) ```
+    spark.conf.set("spark.databricks.delta.replaceWhere.dataColumns.enabled", false)
+    ```
+
   </TabItem>
   <TabItem label="SQL">
-    ```sql SET spark.databricks.delta.replaceWhere.dataColumns.enabled=false ```
+
+    ```sql
+    SET spark.databricks.delta.replaceWhere.dataColumns.enabled=false
+    ```
+
   </TabItem>
 </Tabs>
 
@@ -838,30 +1063,49 @@ Configure dynamic partition overwrite mode by setting the Spark session configur
     label="SQL"
     active
   >
-    ```sql SET spark.sql.sources.partitionOverwriteMode=dynamic; INSERT
-    OVERWRITE TABLE default.people10m SELECT * FROM morePeople; ```
+
+    ```sql
+    SET spark.sql.sources.partitionOverwriteMode=dynamic;
+    INSERT OVERWRITE TABLE default.people10m SELECT * FROM morePeople;
+    ```
+
   </TabItem>
   <TabItem label="Python">
-    ```python df.write \ .format("delta") \ .mode("overwrite") \
-    .option("partitionOverwriteMode", "dynamic") \
-    .saveAsTable("default.people10m") ```
+
+    ```python
+    df.write \
+      .format("delta") \
+      .mode("overwrite") \
+      .option("partitionOverwriteMode", "dynamic") \
+      .saveAsTable("default.people10m")
+    ```
+
   </TabItem>
   <TabItem label="Scala">
-    ```scala df.write .format("delta") .mode("overwrite")
-    .option("partitionOverwriteMode", "dynamic")
-    .saveAsTable("default.people10m") ```
+  
+    ```scala
+    df.write
+      .format("delta")
+      .mode("overwrite")
+      .option("partitionOverwriteMode", "dynamic")
+      .saveAsTable("default.people10m")
+    ``` 
+  
   </TabItem>
 </Tabs>
 
 <Aside type="note">
-  Dynamic partition overwrite conflicts with the option `replaceWhere` for partitioned tables.
+
+Dynamic partition overwrite conflicts with the option `replaceWhere` for partitioned tables.
 
 - If dynamic partition overwrite is enabled in the Spark session configuration, and `replaceWhere` is provided as a `DataFrameWriter` option, then Delta Lake overwrites the data according to the `replaceWhere` expression (query-specific options override session configurations).
 - You'll receive an error if the `DataFrameWriter` options have both dynamic partition overwrite and `replaceWhere` enabled.
-  </Aside>
+
+</Aside>
 
 <Aside type="caution" title="Important">
-  Validate that the data written with dynamic partition overwrite touches only the expected partitions. A single row in the incorrect partition can lead to unintentionally overwriting an entire partition. We recommend using `replaceWhere` to specify which data to overwrite.
+
+Validate that the data written with dynamic partition overwrite touches only the expected partitions. A single row in the incorrect partition can lead to unintentionally overwriting an entire partition. We recommend using `replaceWhere` to specify which data to overwrite.
 
 If a partition has been accidentally overwritten, you can use [Restore a Delta table to an earlier state](/apache-spark-connector/table-utility-commands/#restore-a-delta-table-to-an-earlier-state) to undo the change.
 
@@ -908,11 +1152,9 @@ The above combination of options needs to be unique for each new data that is be
 You can also configure idempotent writes by setting the Spark session configuration `spark.databricks.delta.write.txnAppId` and `spark.databricks.delta.write.txnVersion`. In addition, you can set `spark.databricks.delta.write.txnVersion.autoReset.enabled` to true to automatically reset `spark.databricks.delta.write.txnVersion` after every write. When both the writer options and session configuration are set, we will use the writer option values.
 
 <Aside type="caution">
-  This solution assumes that the data being written to Delta table(s) in
-  multiple retries of the job is same. If a write attempt in a Delta table
-  succeeds but due to some downstream failure there is a second write attempt
-  with same txn options but different data, then that second write attempt will
-  be ignored. This can cause unexpected results.
+
+This solution assumes that the data being written to Delta table(s) in multiple retries of the job is same. If a write attempt in a Delta table succeeds but due to some downstream failure there is a second write attempt with same txn options but different data, then that second write attempt will be ignored. This can cause unexpected results.
+
 </Aside>
 
 #### Example
@@ -922,23 +1164,35 @@ You can also configure idempotent writes by setting the Spark session configurat
     label="Python"
     active
   >
-    ```python app_id = ... # A unique string that is used as an application ID.
-    version = ... # A monotonically increasing number that acts as transaction
-    version. dataFrame.write.format(...).option("txnVersion",
-    version).option("txnAppId", app_id).save(...) ```
-  </TabItem>
-  <TabItem label="Scala">
-    ```scala val appId = ... // A unique string that is used as an application
-    ID. version = ... // A monotonically increasing number that acts as
-    transaction version. dataFrame.write.format(...).option("txnVersion",
-    version).option("txnAppId", appId).save(...) ```
-  </TabItem>
-  <TabItem label="SQL">
-    ```sql SET spark.databricks.delta.write.txnAppId = ...; SET
-    spark.databricks.delta.write.txnVersion = ...; SET
-    spark.databricks.delta.write.txnVersion.autoReset.enabled = true; -- if set
-    to true, this will reset txnVersion after every write ```
-  </TabItem>
+  
+  ```python
+  app_id = ... # A unique string that is used as an application ID.
+  version = ... # A monotonically increasing number that acts as transaction version.
+
+dataFrame.write.format(...).option("txnVersion", version).option("txnAppId", app_id).save(...)
+
+````
+
+</TabItem>
+<TabItem label="Scala">
+
+  ```scala
+  val appId = ... // A unique string that is used as an application ID.
+  version = ... // A monotonically increasing number that acts as transaction version.
+
+  dataFrame.write.format(...).option("txnVersion", version).option("txnAppId", appId).save(...)
+  ```
+
+</TabItem>
+<TabItem label="SQL">
+
+  ```sql
+  SET spark.databricks.delta.write.txnAppId = ...;
+  SET spark.databricks.delta.write.txnVersion = ...;
+  SET spark.databricks.delta.write.txnVersion.autoReset.enabled = true; -- if set to true, this will reset txnVersion after every write
+  ```
+
+</TabItem>
 </Tabs>
 
 ### Set user-defined commit metadata
@@ -946,23 +1200,37 @@ You can also configure idempotent writes by setting the Spark session configurat
 You can specify user-defined strings as metadata in commits made by these operations, either using the DataFrameWriter option `userMetadata` or the SparkSession configuration `spark.databricks.delta.commitInfo.userMetadata`. If both of them have been specified, then the option takes preference. This user-defined metadata is readable in the [history](/apache-spark-connector/table-utility-commands/#retrieve-delta-table-history) operation.
 
 <Tabs>
-  <TabItem
-    label="SQL"
-    active
-  >
-    ```sql SET
-    spark.databricks.delta.commitInfo.userMetadata=overwritten-for-fixing-incorrect-data
-    INSERT OVERWRITE default.people10m SELECT * FROM morePeople ```
-  </TabItem>
-  <TabItem label="Python">
-    ```python df.write.format("delta") \ .mode("overwrite") \
+<TabItem
+  label="SQL"
+  active
+>
+
+  ```sql
+  SET spark.databricks.delta.commitInfo.userMetadata=overwritten-for-fixing-incorrect-data
+  INSERT OVERWRITE default.people10m SELECT * FROM morePeople
+  ```
+
+</TabItem>
+<TabItem label="Python">
+
+  ```python
+  df.write.format("delta") \
+    .mode("overwrite") \
     .option("userMetadata", "overwritten-for-fixing-incorrect-data") \
-    .save("/tmp/delta/people10m") ```
-  </TabItem>
-  <TabItem label="Scala">
-    ```scala df.write.format("delta") .mode("overwrite") .option("userMetadata",
-    "overwritten-for-fixing-incorrect-data") .save("/tmp/delta/people10m") ```
-  </TabItem>
+    .save("/tmp/delta/people10m")
+  ```
+
+</TabItem>
+<TabItem label="Scala">
+
+  ```scala
+  df.write.format("delta")
+    .mode("overwrite")
+    .option("userMetadata", "overwritten-for-fixing-incorrect-data")
+    .save("/tmp/delta/people10m")
+  ```
+
+</TabItem>
 </Tabs>
 
 ## Schema validation
@@ -989,11 +1257,11 @@ Delta Lake lets you update the schema of a table. The following types of changes
 You can make these changes explicitly using DDL or implicitly using DML.
 
 <Aside
-  type="caution"
-  title="Important"
+type="caution"
+title="Important"
 >
-  When you update a Delta table schema, streams that read from that table
-  terminate. If you want the stream to continue you must restart it.
+When you update a Delta table schema, streams that read from that table
+terminate. If you want the stream to continue you must restart it.
 </Aside>
 
 ### Explicitly update schema
@@ -1004,7 +1272,7 @@ You can use the following DDL to explicitly change the schema of a table.
 
 ```sql
 ALTER TABLE table_name ADD COLUMNS (col_name data_type [COMMENT col_comment] [FIRST|AFTER colA_name], ...)
-```
+````
 
 By default, nullability is `true`.
 
@@ -1246,7 +1514,11 @@ By default, overwriting the data in a table does not overwrite the schema. When 
     label="Python"
     active
   >
-    ```python df.write.option("overwriteSchema", "true") ```
+
+    ```python
+    df.write.option("overwriteSchema", "true")
+    ```
+
   </TabItem>
 </Tabs>
 
@@ -1262,6 +1534,7 @@ You can store your own metadata as a table property using `TBLPROPERTIES` in `CR
 
 <Tabs>
   <TabItem label="SQL">
+
     ```sql
     ALTER TABLE default.people10m SET TBLPROPERTIES ('department' = 'accounting', 'delta.appendOnly' = 'true');
 
@@ -1294,18 +1567,25 @@ You can also set `delta.`-prefixed properties during the first commit to a Delta
 
 <Tabs>
   <TabItem label="SQL">
-    ```sql spark.sql("SET spark.databricks.delta.properties.defaults.appendOnly
-    = true") ```
+
+    ```sql
+    spark.sql("SET spark.databricks.delta.properties.defaults.appendOnly = true")
+    ```
+
   </TabItem>
   <TabItem label="Python">
+
     ```python
-    spark.conf.set("spark.databricks.delta.properties.defaults.appendOnly",
-    "true") ```
+    spark.conf.set("spark.databricks.delta.properties.defaults.appendOnly", "true")
+    ```
+
   </TabItem>
   <TabItem label="Scala">
+
     ```scala
-    spark.conf.set("spark.databricks.delta.properties.defaults.appendOnly",
-    "true") ```
+    spark.conf.set("spark.databricks.delta.properties.defaults.appendOnly", "true")
+    ```
+
   </TabItem>
 </Tabs>
 
@@ -1319,11 +1599,13 @@ The schema is stored in the table properties in HMS. If the schema is small, it 
 
 <Tabs>
   <TabItem label="JSON">
+
     ```json
     {
       "spark.sql.sources.schema": "{'name':'col1','type':'string','nullable':true, 'metadata':{}},{'name':'col2','type':'string','nullable':true,'metadata':{}}"
     }
     ```
+
   </TabItem>
 </Tabs>
 
@@ -1331,6 +1613,7 @@ If Schema is large, the schema will be broken down into multiple parts. Appendin
 
 <Tabs>
   <TabItem label="JSON">
+
     ```json
     {
       "spark.sql.sources.schema.numParts": "4",
@@ -1340,6 +1623,7 @@ If Schema is large, the schema will be broken down into multiple parts. Appendin
       "spark.sql.sources.schema.part.4": "data':{}}"
     }
     ```
+
   </TabItem>
 </Tabs>
 
@@ -1382,6 +1666,7 @@ For many Delta Lake operations, you enable integration with Apache Spark DataSou
 
 <Tabs>
   <TabItem label="Python">
+
     ```python
     from pyspark.sql import SparkSession
 
@@ -1396,6 +1681,7 @@ For many Delta Lake operations, you enable integration with Apache Spark DataSou
 
   </TabItem>
   <TabItem label="Scala">
+
     ```scala
     import org.apache.spark.sql.SparkSession
 
@@ -1410,6 +1696,7 @@ For many Delta Lake operations, you enable integration with Apache Spark DataSou
 
   </TabItem>
   <TabItem label="Java">
+
     ```java
     import org.apache.spark.sql.SparkSession;
 
@@ -1449,6 +1736,7 @@ For example, you can pass your storage credentials through DataFrame options:
 
 <Tabs>
   <TabItem label="Python">
+
     ```python
     df1 = spark.read.format("delta") \
       .option("fs.azure.account.key.<storage-account-name>.dfs.core.windows.net", "<storage-account-access-key-1>") \
@@ -1461,8 +1749,10 @@ For example, you can pass your storage credentials through DataFrame options:
       .option("fs.azure.account.key.<storage-account-name>.dfs.core.windows.net", "<storage-account-access-key-3>") \
       .save("...")
     ```
+
   </TabItem>
   <TabItem label="Scala">
+
     ```scala
     val df1 = spark.read.format("delta")
       .option("fs.azure.account.key.<storage-account-name>.dfs.core.windows.net", "<storage-account-access-key-1>")
@@ -1475,6 +1765,7 @@ For example, you can pass your storage credentials through DataFrame options:
       .option("fs.azure.account.key.<storage-account-name>.dfs.core.windows.net", "<storage-account-access-key-3>")
       .save("...")
     ```
+
   </TabItem>
 </Tabs>
 

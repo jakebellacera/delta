@@ -32,9 +32,10 @@ You must explicitly enable row tracking using one of the following methods:
 
 <Tabs>
   <TabItem label="SQL">
+
     ```sql
     -- Create an empty table
-    CREATE TABLE student (id INT, name STRING, age INT) 
+    CREATE TABLE student (id INT, name STRING, age INT)
     TBLPROPERTIES ('delta.enableRowTracking' = 'true');
 
     -- Using a CTAS statement
@@ -56,8 +57,11 @@ You must explicitly enable row tracking using one of the following methods:
 
 <Tabs>
   <TabItem label="SQL">
-    ```sql ALTER TABLE grade SET TBLPROPERTIES ('delta.enableRowTracking' =
-    'true'); ```
+
+    ```sql
+    ALTER TABLE grade SET TBLPROPERTIES ('delta.enableRowTracking' = 'true');
+    ```
+
   </TabItem>
 </Tabs>
 
@@ -65,18 +69,25 @@ You must explicitly enable row tracking using one of the following methods:
 
 <Tabs>
   <TabItem label="SQL">
-    ```sql SET spark.databricks.delta.properties.defaults.enableRowTracking =
-    true; ```
+
+    ```sql
+    SET spark.databricks.delta.properties.defaults.enableRowTracking = true;
+    ```
+
   </TabItem>
   <TabItem label="Python">
+
     ```python
-    spark.conf.set("spark.databricks.delta.properties.defaults.enableRowTracking",
-    True) ```
+    spark.conf.set("spark.databricks.delta.properties.defaults.enableRowTracking", True)
+    ```
+
   </TabItem>
   <TabItem label="Scala">
+
     ```scala
-    spark.conf.set("spark.databricks.delta.properties.defaults.enableRowTracking",
-    true) ```
+    spark.conf.set("spark.databricks.delta.properties.defaults.enableRowTracking", true)
+    ```
+
   </TabItem>
 </Tabs>
 
@@ -108,16 +119,27 @@ The row ids and row commit versions metadata fields are not automatically includ
 
 <Tabs>
   <TabItem label="SQL">
-    ```sql SELECT _metadata.row_id, _metadata.row_commit_version, * FROM
-    table_name; ```
+
+    ```sql
+    SELECT _metadata.row_id, _metadata.row_commit_version, * FROM table_name;
+    ```
+
   </TabItem>
   <TabItem label="Python">
-    ```python spark.read.table("table_name").select("_metadata.row_id",
-    "_metadata.row_commit_version", "*") ```
+
+    ```python
+    spark.read.table("table_name") \
+      .select("_metadata.row_id", "_metadata.row_commit_version", "*")
+    ```
+
   </TabItem>
   <TabItem label="Scala">
-    ```scala spark.read.table("table_name").select("_metadata.row_id",
-    "_metadata.row_commit_version", "*") ```
+
+    ```scala
+    spark.read.table("table_name")
+      .select("_metadata.row_id", "_metadata.row_commit_version", "*")
+    ```
+
   </TabItem>
 </Tabs>
 
@@ -127,16 +149,25 @@ Row tracking can be disabled to reduce the storage overhead of the metadata fiel
 
 <Tabs>
   <TabItem label="SQL">
-    ```sql ALTER TABLE table_name SET TBLPROPERTIES (delta.enableRowTracking =
-    false); ```
+
+    ```sql
+    ALTER TABLE table_name SET TBLPROPERTIES (delta.enableRowTracking = false);
+    ```
+
   </TabItem>
   <TabItem label="Python">
-    ```python spark.sql("ALTER TABLE table_name SET TBLPROPERTIES
-    (delta.enableRowTracking = false)") ```
+
+    ```python
+    spark.sql("ALTER TABLE table_name SET TBLPROPERTIES (delta.enableRowTracking = false)")
+    ```
+
   </TabItem>
   <TabItem label="Scala">
-    ```scala spark.sql("ALTER TABLE table_name SET TBLPROPERTIES
-    (delta.enableRowTracking = false)") ```
+
+    ```scala
+    spark.sql("ALTER TABLE table_name SET TBLPROPERTIES (delta.enableRowTracking = false)")
+    ```
+
   </TabItem>
 </Tabs>
 
