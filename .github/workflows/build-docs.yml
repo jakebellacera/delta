@@ -21,7 +21,7 @@ jobs:
 
       - name: Generate docs site
         shell: bash -el {0}
-        run: export _DELTA_LAKE_RELEASE_VERSION_=3.3.1 python3 docs/generate_docs.py --api-docs
+        run: _DELTA_LAKE_RELEASE_VERSION_=3.3.1 python3 docs/generate_docs.py --api-docs
 
       - name: Archive docs site build
         uses: actions/upload-artifact@v4
