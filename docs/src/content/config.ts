@@ -1,6 +1,17 @@
-import { defineCollection } from "astro:content";
+import { defineCollection, z } from "astro:content";
+import { docsLoader } from "@astrojs/starlight/loaders";
 import { docsSchema } from "@astrojs/starlight/schema";
 
 export const collections = {
-  docs: defineCollection({ schema: docsSchema() }),
+  docs: defineCollection({
+    loader: docsLoader(),
+    schema: docsSchema({
+      extend: z.object({
+        banner: z.object({ content: z.string() }).default({
+          content:
+            'You\'re viewing the beta version. Looking for legacy docs? <a href="https://docs.delta.io" target="_blank" rel="noopener">Click here.</a>',
+        }),
+      }),
+    }),
+  }),
 };
