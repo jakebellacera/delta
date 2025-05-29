@@ -3,8 +3,6 @@ title: Welcome to the Delta Lake documentation
 description: Learn how to use Delta Lake
 sidebar:
   label: Welcome
-banner:
-  content: You're viewing the beta version. Looking for legacy docs? <a href="https://docs.delta.io" target="_blank" rel="noopener">Click here.</a>
 ---
 
 [Delta Lake](https://delta.io) is an [open source project](https://github.com/delta-incubator/delta-site) that enables building a [Lakehouse architecture](https://databricks.com/blog/2020/01/30/what-is-a-data-lakehouse.html) on top of [data lakes](https://databricks.com/discover/data-lakes/introduction). Delta Lake provides [ACID transactions](/concurrency-control/), scalable metadata handling, and unifies [streaming](/delta-streaming) and [batch](/delta-batch) data processing on top of existing data lakes, such as S3, ADLS, GCS, and HDFS.
