@@ -24,6 +24,11 @@ def main():
         "--api-docs",
         action="store_true",
         help="Generate the API docs")
+    parser.add_argument(
+        "--version",
+        action="store_true",
+        help="Target which version of Delta Lake to build",
+    )
 
     args = parser.parse_args()
     
@@ -44,17 +49,20 @@ def main():
                 os.environ["_DELTA_LAKE_RELEASE_VERSION_"]
             except KeyError:
                 raise KeyError(f"Environment variable _DELTA_LAKE_RELEASE_VERSION_ not set.")
-            generate_and_copy_api_docs(api_docs_root_dir, api_html_output)
+            generate_and_copy_api_docs(api_docs_root_dir, api_html_output, version=args.version)
         run_cmd(build_docs_cmd, shell=True, stream_output=True)
 
 
-def generate_and_copy_api_docs(api_docs_root_dir, target_loc):
+def generate_and_copy_api_docs(api_docs_root_dir, target_loc, version=False):
     print("Building API docs")
 
     with WorkingDirectory(target_loc):
         script_path = os.path.join(api_docs_root_dir, "generate_api_docs.py")
         api_docs_dir = os.path.join(api_docs_root_dir,  "_site", "api")
-        run_cmd(["python3", script_path], stream_output=True)
+        cmd = ["python3", script_path]
+        if version:
+            cmd.append("--version=" + version)
+        run_cmd(cmd, stream_output=True)
         assert os.path.exists(api_docs_dir), \
             "Doc generation didn't create the expected api directory"
         api_docs_dest_dir = target_loc
