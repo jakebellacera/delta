@@ -57,6 +57,9 @@ def main():
 def generate_and_copy_api_docs(api_docs_root_dir, target_loc, version=None):
     print("Building API docs")
 
+    # Ensure target directory exists
+    os.makedirs(target_loc, exist_ok=True)
+
     with WorkingDirectory(target_loc):
         script_path = os.path.join(api_docs_root_dir, "generate_api_docs.py")
         api_docs_dir = os.path.join(api_docs_root_dir,  "_site", "api")

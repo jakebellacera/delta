@@ -24,9 +24,9 @@ def main():
     parser.add_argument("-v", "--verbose", default=False, action='store_true')
     parser.add_argument(
         "--version",
-        default=False,
-        action="store_true",
-        help="Build docs for Delta v3",
+        type=str,
+        default=None,
+        help="Delta Lake version to build docs for (e.g., v3.3.2)",
     )
     args = parser.parse_args()
     global verbose
@@ -37,7 +37,10 @@ def main():
     repo_root_dir = os.path.dirname(docs_root_dir)
 
     # --- dirs where docs are generated
-    scala_version = "2.12" if "v3" in args.version else "2.13"
+    # Determine Scala version based on Delta version
+    scala_version = "2.13"  # Default for v4+
+    if args.version and "v3" in args.version:
+        scala_version = "2.12"
     spark_scaladoc_gen_dir = (
         repo_root_dir + "/spark/target/scala-" + scala_version + "/unidoc"
     )
