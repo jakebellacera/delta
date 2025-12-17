@@ -26,8 +26,9 @@ def main():
         help="Generate the API docs")
     parser.add_argument(
         "--version",
-        action="store_true",
-        help="Target which version of Delta Lake to build",
+        type=str,
+        default=None,
+        help="Target Delta Lake version to build (e.g., v3.3.2)",
     )
 
     args = parser.parse_args()
@@ -53,7 +54,7 @@ def main():
         run_cmd(build_docs_cmd, shell=True, stream_output=True)
 
 
-def generate_and_copy_api_docs(api_docs_root_dir, target_loc, version=False):
+def generate_and_copy_api_docs(api_docs_root_dir, target_loc, version=None):
     print("Building API docs")
 
     with WorkingDirectory(target_loc):
@@ -61,7 +62,7 @@ def generate_and_copy_api_docs(api_docs_root_dir, target_loc, version=False):
         api_docs_dir = os.path.join(api_docs_root_dir,  "_site", "api")
         cmd = ["python3", script_path]
         if version:
-            cmd.append("--version=" + version)
+            cmd.extend(["--version", version])
         run_cmd(cmd, stream_output=True)
         assert os.path.exists(api_docs_dir), \
             "Doc generation didn't create the expected api directory"
